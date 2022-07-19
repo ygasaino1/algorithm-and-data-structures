@@ -1,13 +1,17 @@
+#ifndef WEIGHTS_H
+#define WEIGHTS_H
+
 class Weights{
     private:
         int MAX_WEIGHTS;
 
     public:
-        float* values;
+        double* values;
         int number_weights;
 
         Weights();
         void init(int number_predictor, int random_init);
-        ~Weights();
-        void update(Dataset data, float *y_pred, float learning_rate);
+        ~Weights() = default;
+        void update(class Dataset data, double *y_pred, double learning_rate) const;
 };
+#endif // WEIGHTS_H

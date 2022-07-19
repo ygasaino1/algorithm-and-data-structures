@@ -1,52 +1,55 @@
-#include "utils.h"
+#include "Dataset.h"
+
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 
 
-Dataset::Dataset(){
+Dataset::Dataset() = default;
 
-}
-
-Dataset::Dataset(float **X_train,float *y_train, int length_train, int number_predictor_train){
-    X = (float **) malloc(sizeof(float*)*length_train);
-    for(int i = 0; i < length_train; i++){
-        X[i] = (float *) malloc(sizeof(float)*number_predictor_train);
-        std::memcpy(X[i], X_train[i], sizeof(float)*number_predictor_train);
+Dataset::Dataset(double** x_train, double* y_train, int length_train, int number_predictor_train)
+{
+    x = static_cast<double**>(malloc(sizeof(double*) * length_train));
+    for (int i = 0; i < length_train; i++)
+    {
+        x[i] = static_cast<double*>(malloc(sizeof(double) * number_predictor_train));
+        std::memcpy(x[i], x_train[i], sizeof(double) * number_predictor_train);
     }
 
-    y = (float *) malloc(sizeof(float)*length_train);
-    std::memcpy(y, y_train, sizeof(float)*length_train);
-    
+    y = static_cast<double*>(malloc(sizeof(double) * length_train));
+    std::memcpy(y, y_train, sizeof(double) * length_train);
+
     length = length_train;
     number_predictor = number_predictor_train;
 }
 
-void Dataset::copy(const Dataset &data){
-    
-    X = (float **) malloc(sizeof(float*)*data.length);
-    for(int i = 0; i < data.length; i++){
-        X[i] = (float *) malloc(sizeof(float)*data.number_predictor);
-        std::memcpy(X[i], data.X[i], sizeof(float)*data.number_predictor);
+void Dataset::copy(const Dataset& data)
+{
+    x = static_cast<double**>(malloc(sizeof(double*) * data.length));
+    for (int i = 0; i < data.length; i++)
+    {
+        x[i] = static_cast<double*>(malloc(sizeof(double) * data.number_predictor));
+        std::memcpy(x[i], data.x[i], sizeof(double) * data.number_predictor);
     }
 
-    y = (float *) malloc(sizeof(float)*data.length);
-    std::memcpy(y, data.y, sizeof(float)*data.length);
-    
+    y = static_cast<double*>(malloc(sizeof(double) * data.length));
+    std::memcpy(y, data.y, sizeof(double) * data.length);
+
     length = data.length;
     number_predictor = data.number_predictor;
 }
 
-Dataset::~Dataset(){
-    
-}
+Dataset::~Dataset() = default;
 
-void Dataset::print_dataset(){
-    
-    for(int i = 0; i < length; i++){
-        printf("row = %d: \n",i);
-        for(int j = 0; j < number_predictor; j++){
-            printf("X%d = %f\n",j,X[i][j]);
+void Dataset::print_dataset() const
+{
+    for (int i = 0; i < length; i++)
+    {
+        printf("row = %d: \n", i);
+        for (int j = 0; j < number_predictor; j++)
+        {
+            printf("X%d = %f\n", j, x[i][j]);
         }
-        printf("Y = %f\n",y[i]);
+        printf("Y = %f\n", y[i]);
     }
-
-    
 }
